@@ -1,0 +1,33 @@
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class DiseaseTreeTester {
+
+	private static Network n;
+	private static Person[] people;
+	
+	@BeforeClass
+	 public static void setup() {
+	 Network n= new Network();
+	 people= new Person[]{
+	 new Person("A", n, 0), new Person("B", n, 0), new Person("C", n, 0),
+	 new Person("D", n, 0), new Person("E", n, 0), new Person("F", n, 0),
+	 new Person("G", n, 0), new Person("H", n, 0), new Person("I", n, 0),
+	 new Person("J", n, 0), new Person("K", n, 0), new Person("L", n, 0)
+	 };
+	 }
+	
+	@Test
+	public void testAdd() {
+		DiseaseTree dt1 = new DiseaseTree(people[0]);
+		DiseaseTree dt2= dt1.add(people[0], people[1]);
+		 assertEquals(people[1], dt2.getRoot());
+		 assertEquals(1, dt1.getChildrenCount());
+		 assertEquals(0, dt2.getChildrenCount());
+		 assertTrue(dt1.getChildren().contains(dt2));
+		 assertTrue(dt2.getChildren().isEmpty());
+	}
+	
+}
