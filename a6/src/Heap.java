@@ -83,7 +83,6 @@ public class Heap<E> implements PCue<E> {
     	b.add(e);
     	bubbleUp(b.size()-1);
     	size++;
-    	System.out.println(this.toString());
     }
 
     /** Return the element of the priority queue with lowest priority, without
@@ -123,16 +122,22 @@ public class Heap<E> implements PCue<E> {
     private void bubbleUp(int k) {
         // TODO  First: Do add and bubbleUp together.
         // Do not use recursion; iteration is best.
-    	int newIndex = k;
-    	E copy = b.get(k);
-        while ((newIndex>0) && (map.get(b.get(k)).priority <  map.get(b.get(newIndex-1)).priority)) {
-        	newIndex--;
-        }
-        b.remove(k);
-        b.add(newIndex, copy);
-        for (int i = k; i<b.size(); i++) {
-        	map.get(b.get(i)).index=i;
-        }
+    	if (k==0) return;
+    	int parentIndex = (k-1)/2;
+    	double childPri = map.get(b.get(k)).priority;
+    	double parentPri = map.get(b.get(parentIndex)).priority;
+    	while (k != 0 && childPri < parentPri) {
+    		E holder1 = b.get(k);
+    		E holder2 = b.get(parentIndex);
+    		b.set(parentIndex, holder1);
+    		b.set(k, holder2);
+    		map.get(b.get(k)).index=k;
+    		map.get(b.get(parentIndex)).index = parentIndex;
+    		k = parentIndex;
+    		parentIndex = (k-1)/2;
+    		parentPri = map.get(b.get(parentIndex)).priority;
+    	}
+    	
     }
 
     /** Bubble b[k] down in heap until it finds the right place.
